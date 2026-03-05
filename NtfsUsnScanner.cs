@@ -7,13 +7,19 @@ namespace UltraTree;
 
 /// <summary>
 /// NTFS scanner using the USN Journal to enumerate the file tree quickly.
-/// NOTE: USN records do NOT contain file size; we do a parallel FileInfo.Length sizing pass.
-/// Run as Administrator for best reliability.
+/// NOTE: USN records do NOT contain file size; we do a parallel sizing pass.
 /// </summary>
 public static class NtfsUsnScanner
 {
     public sealed class ScanResult
     {
+        // Drive summary
+        public required VolumeStats Volume { get; init; }
+
+        // Tree metrics (folder + file nodes). UI can filter to folders.
+        public required IReadOnlyDictionary<string, NodeMetrics> Metrics { get; init; }
+
+        // Convenience lists for quick UI views
         public long FileCount { get; init; }
         public long TotalBytes { get; init; }
         public List<ResultRow> TopFiles { get; init; } = new();
@@ -25,6 +31,7 @@ public static class NtfsUsnScanner
         // Expect "C:" or "D:"
         string drive = driveLetterNoSlash.TrimEnd('\\');
         string rootPath = drive + "\\";
+        var volumeStats = VolumeInfo.GetVolumeStats(rootPath);
 
         // 1) Open volume handle: \\.\C:
         string volPath = @"\\.\" + drive;
@@ -46,11 +53,11 @@ public static class NtfsUsnScanner
         // 3) Query USN Journal
         USN_JOURNAL_DATA_V0 journal = QueryUsnJournal(hVol);
 
-        // 4) Enumerate USN records
+        // 4) Enumerate USN records (names + parent FRN)
         progress?.Report(new ScanProgress(1, "Enumerating NTFS records (USN Journal)…"));
 
         var entries = new ConcurrentDictionary<ulong, Entry>(concurrencyLevel: Environment.ProcessorCount, capacity: 1_000_000);
-        entries[rootFrn] = new Entry(rootFrn, rootFrn, rootPath.TrimEnd('\\'), IsDir: true, Size: 0);
+        entries[rootFrn] = new Entry(rootFrn, rootFrn, rootPath.TrimEnd('\\'), IsDir: true, Size: 0, Allocated: 0);
 
         var enumData = new MFT_ENUM_DATA_V0
         {
@@ -84,7 +91,7 @@ public static class NtfsUsnScanner
                     out int bytesReturned,
                     IntPtr.Zero);
 
-                if (!ok || bytesReturned <= sizeof(ulong))
+                if (!ok || bytesReturned <= (int)sizeof(ulong))
                     break;
 
                 // First 8 bytes: next StartFileReferenceNumber
@@ -104,13 +111,13 @@ public static class NtfsUsnScanner
 
                     string name = Marshal.PtrToStringUni(p + rec.FileNameOffset, rec.FileNameLength / 2) ?? "";
 
-                    // Save
                     entries[rec.FileReferenceNumber] = new Entry(
                         rec.FileReferenceNumber,
                         rec.ParentFileReferenceNumber,
                         name,
                         IsDir: isDir,
-                        Size: 0);
+                        Size: 0,
+                        Allocated: 0);
 
                     approxCount++;
                     if (approxCount % 250_000 == 0)
@@ -140,7 +147,7 @@ public static class NtfsUsnScanner
             if (!entries.TryGetValue(frn, out var ent))
                 return "";
 
-            if (ent.ParentFrn == frn) // root-ish guard
+            if (ent.ParentFrn == frn)
             {
                 pathCache[frn] = rootPath.TrimEnd('\\');
                 return pathCache[frn];
@@ -155,14 +162,17 @@ public static class NtfsUsnScanner
             return full;
         }
 
-        // 6) Size files in parallel (still IO, but no recursion)
+        // 6) Size files in parallel + compute Allocated
         var fileFrns = entries.Values.Where(e => !e.IsDir).Select(e => e.Frn).ToArray();
         progress?.Report(new ScanProgress(15, $"Sizing {fileFrns.Length:n0} files (parallel)…"));
 
-        var topFilesHeap = new FixedSizeMinHeap(800);
+        var topFilesHeap = new FixedSizeMinHeap(1000);
 
         long totalBytes = 0;
         long fileCount = 0;
+
+        // We will build FileFacts for the metrics engine
+        var factsBag = new ConcurrentBag<FileFact>();
 
         Parallel.ForEach(
             fileFrns,
@@ -181,12 +191,37 @@ public static class NtfsUsnScanner
                 try
                 {
                     long len = new FileInfo(path).Length;
-                    entries[frn] = ent with { Size = len };
+
+                    long alloc;
+                    try
+                    {
+                        alloc = AllocatedSize.GetAllocatedBytesForFile(path);
+                        if (alloc < 0) alloc = len;
+                    }
+                    catch
+                    {
+                        alloc = len; // fallback
+                    }
+
+                    entries[frn] = ent with { Size = len, Allocated = alloc };
 
                     Interlocked.Add(ref totalBytes, len);
                     Interlocked.Increment(ref fileCount);
 
                     topFilesHeap.Consider(path, len);
+
+                    // FileFact for tree metrics
+                    string parent = Path.GetDirectoryName(path) ?? rootPath.TrimEnd('\\');
+                    if (!parent.EndsWith("\\")) parent += "\\";
+
+                    factsBag.Add(new FileFact
+                    {
+                        Path = path,
+                        ParentPath = parent,
+                        IsDir = false,
+                        LogicalSize = len,
+                        AllocatedSize = alloc
+                    });
                 }
                 catch
                 {
@@ -194,62 +229,66 @@ public static class NtfsUsnScanner
                 }
             });
 
-        progress?.Report(new ScanProgress(60, "Aggregating folder sizes…"));
-
-        // 7) Aggregate folder sizes by climbing parent FRNs
-        var folderBytes = new ConcurrentDictionary<ulong, long>(concurrencyLevel: Environment.ProcessorCount, capacity: 300_000);
-
-        foreach (var e in entries.Values.Where(x => x.IsDir))
-            folderBytes.TryAdd(e.Frn, 0);
-
-        foreach (var f in entries.Values.Where(x => !x.IsDir && x.Size > 0))
+        // Optional: include directories as facts so folder counts can be correct
+        foreach (var d in entries.Values.Where(x => x.IsDir))
         {
             ct.ThrowIfCancellationRequested();
+            var p = ResolvePath(d.Frn);
+            if (string.IsNullOrEmpty(p)) continue;
+            if (!p.EndsWith("\\")) p += "\\";
 
-            ulong parent = f.ParentFrn;
-            long bytes = f.Size;
+            string parent = Path.GetDirectoryName(p.TrimEnd('\\')) ?? rootPath.TrimEnd('\\');
+            if (!parent.EndsWith("\\")) parent += "\\";
 
-            while (entries.TryGetValue(parent, out var pe))
+            factsBag.Add(new FileFact
             {
-                folderBytes.AddOrUpdate(parent, bytes, (_, old) => old + bytes);
-
-                if (parent == pe.ParentFrn) break; // root guard
-                parent = pe.ParentFrn;
-
-                if (parent == 0) break;
-            }
+                Path = p,
+                ParentPath = parent,
+                IsDir = true,
+                LogicalSize = 0,
+                AllocatedSize = 0
+            });
         }
 
-        // 8) Build top folders list
+        progress?.Report(new ScanProgress(60, "Building tree metrics…"));
+
+        var metrics = MetricsBuilder.BuildTreeMetrics(factsBag, rootPath, ct);
+
+        // 7) Build top folders list from metrics (uses folder logical size)
         progress?.Report(new ScanProgress(85, "Building top folders…"));
 
-        var topFoldersHeap = new FixedSizeMinHeap(400);
-        foreach (var kv in folderBytes)
+        var topFoldersHeap = new FixedSizeMinHeap(500);
+        foreach (var n in metrics.Values)
         {
             ct.ThrowIfCancellationRequested();
 
-            string p = ResolvePath(kv.Key);
-            if (!string.IsNullOrEmpty(p))
-                topFoldersHeap.Consider(p + "\\", kv.Value); // show as folder
+            if (!n.IsDir) continue;
+            if (string.Equals(n.Path.TrimEnd('\\'), rootPath.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            topFoldersHeap.Consider(n.Path, n.SizeBytes);
         }
 
         progress?.Report(new ScanProgress(95, "Finalizing…"));
 
         return new ScanResult
         {
+            Volume = volumeStats,
+            Metrics = metrics,
+
             FileCount = fileCount,
             TotalBytes = totalBytes,
+
             TopFiles = topFilesHeap.GetTopDescending(200).Select(x => new ResultRow(x.Path, x.Bytes)).ToList(),
             TopFolders = topFoldersHeap.GetTopDescending(200).Select(x => new ResultRow(x.Path, x.Bytes)).ToList()
         };
     }
 
-    private sealed record Entry(ulong Frn, ulong ParentFrn, string Name, bool IsDir, long Size);
+    private sealed record Entry(ulong Frn, ulong ParentFrn, string Name, bool IsDir, long Size, long Allocated);
 
-    // --- Root FRN lookup (correct way) ---
+    // --- Root FRN lookup ---
     private static ulong GetRootDirectoryFrn(string rootPathWithSlash)
     {
-        // Open handle to root directory e.g. "C:\"
         using SafeFileHandle hRoot = CreateFileW(
             rootPathWithSlash,
             FileAccessFlags.GENERIC_READ,
@@ -265,7 +304,6 @@ public static class NtfsUsnScanner
         if (!GetFileInformationByHandle(hRoot, out BY_HANDLE_FILE_INFORMATION info))
             throw new InvalidOperationException("GetFileInformationByHandle failed for root.");
 
-        // FileIndex = 64-bit (high/low)
         return ((ulong)info.FileIndexHigh << 32) | info.FileIndexLow;
     }
 

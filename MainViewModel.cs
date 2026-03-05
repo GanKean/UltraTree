@@ -70,7 +70,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             });
 
             var result = await Task.Run(() =>
-                NtfsUsnScanner.ScanDrive(SelectedDrive, progress, _cts.Token), _cts.Token);
+                NtfsMftScanner.ScanDrive(SelectedDrive, progress, _cts.Token), _cts.Token);
 
             foreach (var r in result.TopFolders)
                 TopFolders.Add(r);
