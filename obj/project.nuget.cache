@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "3Gy3pmL8qr4=",
+  "dgSpecHash": "iflga4AzMbg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\UltraTree\\UltraTree.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Gaous\\OneDrive\\Documents\\CPS4951_Project\\UltraTree\\UltraTree.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Gaous\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.25\\microsoft.netcore.app.ref.8.0.25.nupkg.sha512",
+    "C:\\Users\\Gaous\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.25\\microsoft.windowsdesktop.app.ref.8.0.25.nupkg.sha512",
+    "C:\\Users\\Gaous\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.25\\microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512",
+    "C:\\Users\\Gaous\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.25\\microsoft.netcore.app.host.win-x64.8.0.25.nupkg.sha512"
+  ],
   "logs": []
 }
