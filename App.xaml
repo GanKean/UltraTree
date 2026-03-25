@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<Application x:Class="UltraTree.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,3 +8,14 @@
          
     </Application.Resources>
 </Application>
+=======
+﻿<Application x:Class="UltraTree.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:UltraTree"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
+>>>>>>> b78f4c63145062f6840ee5adb0fbc7f8b5fe4d52
