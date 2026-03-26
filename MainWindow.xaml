@@ -164,7 +164,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="460"/>
-                    <ColumnDefinition Width="620"/>
+                    <ColumnDefinition Width="500"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
