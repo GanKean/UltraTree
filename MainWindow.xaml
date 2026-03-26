@@ -27,7 +27,7 @@
 
     <!-- Text -->
     <SolidColorBrush x:Key="PrimaryText" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="MutedText" Color="#CFCFCF"/>
+    <SolidColorBrush x:Key="MutedText" Color="#11476F"/>
 
     <!-- Global text -->
     <Style TargetType="TextBlock">
