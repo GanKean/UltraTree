@@ -5,13 +5,13 @@
         Height="900"
         Width="1400"
         WindowStartupLocation="CenterScreen"
-        Background="#0E639C">
+        Background="#1C1836">
 
     
 
     <DockPanel>
 
-        <Menu DockPanel.Dock="Top" Background="#0E639C">
+        <Menu DockPanel.Dock="Top" Background="#1C1836">
             <MenuItem Header="_File"/>
             <MenuItem Header="_Options"/>
             <MenuItem Header="_View"/>
@@ -153,7 +153,7 @@
             </Grid.RowDefinitions>
 
             <TabControl Grid.Row="0"
-                        Background="#0E639C"
+                        Background="#1C1836"
                         BorderThickness="0">
                 <TabItem Header="Tree View"/>
                 <TabItem Header="File View"/>
