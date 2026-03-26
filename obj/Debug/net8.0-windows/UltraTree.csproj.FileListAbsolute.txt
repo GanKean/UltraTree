@@ -17,3 +17,7 @@ C:\Users\PC\UltraTree\obj\Debug\net8.0-windows\refint\UltraTree.dll
 C:\Users\PC\UltraTree\obj\Debug\net8.0-windows\UltraTree.pdb
 C:\Users\PC\UltraTree\obj\Debug\net8.0-windows\UltraTree.genruntimeconfig.cache
 C:\Users\PC\UltraTree\obj\Debug\net8.0-windows\ref\UltraTree.dll
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree_MarkupCompile.cache
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.dll
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\refint\UltraTree.dll
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.pdb
