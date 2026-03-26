@@ -22,3 +22,11 @@ C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-win
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\refint\UltraTree.dll
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.pdb
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.g.resources
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.AssemblyInfoInputs.cache
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.AssemblyInfo.cs
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.csproj.CoreCompileInputs.cache
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.sourcelink.json
