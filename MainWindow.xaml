@@ -5,135 +5,144 @@
         Height="900"
         Width="1400"
         WindowStartupLocation="CenterScreen"
-        Background="#F0F0F0">
+        Background="#1E1E1E">
 
     <Window.Resources>
 
-    <!-- VS Code dark base -->
-    <SolidColorBrush x:Key="AppBackground" Color="#1E1E1E"/>
-    <SolidColorBrush x:Key="PanelBackground" Color="#252526"/>
-    <SolidColorBrush x:Key="CardBackground" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="HeaderBackground" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="SurfaceBackground" Color="#1F1F1F"/>
+        <!-- VS Code dark base -->
+        <SolidColorBrush x:Key="AppBackground" Color="#1E1E1E"/>
+        <SolidColorBrush x:Key="PanelBackground" Color="#252526"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#2D2D30"/>
+        <SolidColorBrush x:Key="SurfaceBackground" Color="#1F1F1F"/>
+        <SolidColorBrush x:Key="HeaderBackground" Color="#2D2D30"/>
 
-    <!-- Your custom blue theme -->
-    <SolidColorBrush x:Key="AccentBlue" Color="#072B47"/>
-    <SolidColorBrush x:Key="AccentBlueHover" Color="#0B3A5E"/>
-    <SolidColorBrush x:Key="AccentBlueSelected" Color="#11476F"/>
+        <!-- Your blue -->
+        <SolidColorBrush x:Key="AccentBlue" Color="#072B47"/>
+        <SolidColorBrush x:Key="AccentBlueHover" Color="#0B3A5E"/>
+        <SolidColorBrush x:Key="AccentBlueSelected" Color="#11476F"/>
 
-    <!-- Borders / lines -->
-    <SolidColorBrush x:Key="BorderColor" Color="#072B47"/>
-    <SolidColorBrush x:Key="GridLineColor" Color="#072B47"/>
+        <!-- Borders / lines -->
+        <SolidColorBrush x:Key="BorderColor" Color="#072B47"/>
+        <SolidColorBrush x:Key="GridLineColor" Color="#072B47"/>
 
-    <!-- Text -->
-    <SolidColorBrush x:Key="PrimaryText" Color="#D4D4D4"/>
-    <SolidColorBrush x:Key="SecondaryText" Color="#9CDCFE"/>
-    <SolidColorBrush x:Key="MutedText" Color="#A0A0A0"/>
+        <!-- Text -->
+        <SolidColorBrush x:Key="PrimaryText" Color="#D4D4D4"/>
+        <SolidColorBrush x:Key="MutedText" Color="#A0A0A0"/>
 
-    <!-- General text -->
-    <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-    </Style>
+        <!-- Global text -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        </Style>
 
-    <!-- Borders -->
-    <Style TargetType="Border">
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-    </Style>
+        <!-- Borders -->
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        </Style>
 
-    <!-- Buttons -->
-    <Style TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource CardBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="8,4"/>
-    </Style>
+        <!-- Buttons -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
 
-    <!-- ComboBox -->
-    <Style TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-    </Style>
+        <!-- ComboBox -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        </Style>
 
-    <!-- Menu -->
-    <Style TargetType="Menu">
-        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-    </Style>
+        <!-- Menu -->
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        </Style>
 
-    <Style TargetType="MenuItem">
-        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-    </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        </Style>
 
-    <!-- Status bar -->
-    <Style TargetType="StatusBar">
-        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-    </Style>
+        <!-- StatusBar -->
+        <Style TargetType="StatusBar">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        </Style>
 
-    <!-- Progress bar -->
-    <Style TargetType="ProgressBar">
-        <Setter Property="Background" Value="{StaticResource SurfaceBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource AccentBlue}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-    </Style>
+        <!-- ProgressBar -->
+        <Style TargetType="ProgressBar">
+            <Setter Property="Background" Value="{StaticResource SurfaceBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBlue}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
 
-    <!-- DataGrid -->
-    <Style TargetType="DataGrid">
-        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-        <Setter Property="RowBackground" Value="{StaticResource PanelBackground}"/>
-        <Setter Property="AlternatingRowBackground" Value="{StaticResource SurfaceBackground}"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
-        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
-        <Setter Property="GridLinesVisibility" Value="All"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-    </Style>
+        <!-- TabControl -->
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="{StaticResource AppBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        </Style>
 
-    <!-- DataGrid rows -->
-    <Style TargetType="DataGridRow">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource AccentBlueHover}"/>
-            </Trigger>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource AccentBlueSelected}"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        </Style>
 
-    <!-- DataGrid headers -->
-    <Style TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource HeaderBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-        <Setter Property="BorderThickness" Value="0,0,1,1"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="RowBackground" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource SurfaceBackground}"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
+            <Setter Property="GridLinesVisibility" Value="All"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+        </Style>
 
-    <!-- ScrollViewer / treemap area text borders stay dark -->
-    <Style TargetType="GroupBox">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-    </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentBlueHover}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentBlueSelected}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-</Window.Resources>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource GridLineColor}"/>
+        </Style>
 
-    <DockPanel>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource HeaderBackground}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
 
-        <Menu DockPanel.Dock="Top" Background="#F0F0F0">
-            <MenuItem Header="_File"/>
-            <MenuItem Header="_Options"/>
-            <MenuItem Header="_View"/>
-            <MenuItem Header="_Help"/>
-        </Menu>
+    </Window.Resources>
 
+    <DockPanel Background="{StaticResource AppBackground}">
+
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top"/>
+
+        <!-- Status bar -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Text="{Binding StatusText}" />
@@ -144,10 +153,11 @@
             </StatusBarItem>
         </StatusBar>
 
+        <!-- Top header -->
         <Border DockPanel.Dock="Top"
-                BorderBrush="#C8C8C8"
+                BorderBrush="{StaticResource BorderColor}"
                 BorderThickness="0,0,0,1"
-                Background="#E9EEF4"
+                Background="{StaticResource CardBackground}"
                 Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -156,7 +166,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="0,0,10,0">
+                <!-- Left controls -->
+                <Grid Grid.Column="0" Margin="0,0,10,0" Background="{StaticResource CardBackground}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -200,10 +211,11 @@
                                  Value="{Binding ProgressPercent}" />
                 </Grid>
 
+                <!-- Center stats -->
                 <Border Grid.Column="1"
-                        BorderBrush="#C8C8C8"
+                        BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
-                        Background="#F4F7FA"
+                        Background="{StaticResource CardBackground}"
                         Padding="10"
                         Margin="0,0,10,0">
                     <Grid>
@@ -234,10 +246,11 @@
                     </Grid>
                 </Border>
 
+                <!-- Right branding -->
                 <Border Grid.Column="2"
-                        BorderBrush="#C8C8C8"
+                        BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
-                        Background="#F8F8F8"
+                        Background="{StaticResource CardBackground}"
                         Padding="10">
                     <StackPanel>
                         <TextBlock Text="UltraTree"
@@ -257,39 +270,38 @@
             </Grid>
         </Border>
 
-        <Grid Margin="8">
+        <!-- Main body -->
+        <Grid Margin="8" Background="{StaticResource AppBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="260"/>
             </Grid.RowDefinitions>
 
-            <TabControl Grid.Row="0"
-                        Background="#F0F0F0"
-                        BorderThickness="0">
+            <TabControl Grid.Row="0">
                 <TabItem Header="Tree View"/>
                 <TabItem Header="File View"/>
                 <TabItem Header="About"/>
             </TabControl>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Background="{StaticResource AppBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="8"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- Left grid -->
                 <Border Grid.Column="0"
-                        BorderBrush="#BFBFBF"
+                        BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
-                        Background="White">
+                        Background="{StaticResource PanelBackground}">
                     <DataGrid x:Name="FoldersGrid"
                               ItemsSource="{Binding TopFolders}"
                               SelectedItem="{Binding SelectedFolder}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               HeadersVisibility="Column"
-                              GridLinesVisibility="Vertical"
                               RowHeaderWidth="0"
                               CanUserResizeRows="False"
                               CanUserSortColumns="True"
@@ -299,9 +311,10 @@
                                                 Binding="{Binding DisplayName}"
                                                 Width="3*"
                                                 SortMemberPath="Path"/>
-                            <DataGridTextColumn Header="% of Parent"
+                            <DataGridTextColumn Header="% of Total Space"
                                                 Binding="{Binding PercentOfParentText}"
-                                                Width="*"/>
+                                                Width="*"
+                                                SortMemberPath="PercentOfParent"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -333,19 +346,19 @@
                 <GridSplitter Grid.Column="1"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
-                              Background="#D0D0D0"/>
+                              Background="{StaticResource BorderColor}"/>
 
+                <!-- Right grid -->
                 <Border Grid.Column="2"
-                        BorderBrush="#BFBFBF"
+                        BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
-                        Background="White">
+                        Background="{StaticResource PanelBackground}">
                     <DataGrid x:Name="FilesGrid"
                               ItemsSource="{Binding TopFiles}"
                               SelectedItem="{Binding SelectedFile}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               HeadersVisibility="Column"
-                              GridLinesVisibility="Vertical"
                               RowHeaderWidth="0"
                               CanUserResizeRows="False"
                               CanUserSortColumns="True"
@@ -357,7 +370,8 @@
                                                 SortMemberPath="Path"/>
                             <DataGridTextColumn Header="Percent"
                                                 Binding="{Binding PercentText}"
-                                                Width="*"/>
+                                                Width="*"
+                                                SortMemberPath="PercentOfDrive"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -375,12 +389,13 @@
                 </Border>
             </Grid>
 
+            <!-- Treemap -->
             <Border Grid.Row="2"
                     Margin="0,8,0,0"
-                    BorderBrush="#BFBFBF"
+                    BorderBrush="{StaticResource BorderColor}"
                     BorderThickness="1"
-                    Background="White">
-                <Grid>
+                    Background="{StaticResource PanelBackground}">
+                <Grid Background="{StaticResource PanelBackground}">
                     <TextBlock Text="Treemap View"
                                FontWeight="SemiBold"
                                Margin="8,6,0,0"
@@ -389,11 +404,11 @@
                     <ScrollViewer Margin="0,28,0,0"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Disabled"
-                                  Background="#FAFAFA">
+                                  Background="{StaticResource SurfaceBackground}">
                         <ItemsControl ItemsSource="{Binding TreemapItems}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <Canvas Width="1200" Height="220"/>
+                                    <Canvas Width="1200" Height="220" Background="{StaticResource SurfaceBackground}"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
@@ -409,7 +424,7 @@
                                     <Border Width="{Binding Width}"
                                             Height="{Binding Height}"
                                             Background="{Binding Fill}"
-                                            BorderBrush="White"
+                                            BorderBrush="{StaticResource BorderColor}"
                                             BorderThickness="1"
                                             ToolTip="{Binding Tooltip}"
                                             MouseLeftButtonDown="TreemapItem_MouseLeftButtonDown">
@@ -423,11 +438,12 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
+
                                         <Grid>
                                             <TextBlock Text="{Binding Label}"
                                                        Margin="4"
                                                        FontSize="11"
-                                                       Foreground="Black"
+                                                       Foreground="White"
                                                        TextTrimming="CharacterEllipsis"
                                                        Visibility="{Binding LabelVisibility}"/>
                                         </Grid>
