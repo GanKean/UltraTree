@@ -21,3 +21,4 @@ C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-win
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.dll
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\refint\UltraTree.dll
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.pdb
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\App.g.cs
