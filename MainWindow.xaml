@@ -34,21 +34,7 @@
         <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
     </Style>
 
-    <Style TargetType="TabItem">
-    <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
-    <Setter Property="Background" Value="{StaticResource CardBackground}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="Padding" Value="8,4"/>
-
-    <Style.Triggers>
-        <!-- Selected tab -->
-        <Trigger Property="IsSelected" Value="True">
-            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-        </Trigger>
-    </Style.Triggers>
-    </Style>
+    
 
     <!-- Borders -->
     <Style TargetType="Border">
