@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -43,5 +44,18 @@ public partial class MainWindow : Window
                 UseShellExecute = true
             });
         }
+    }
+
+    private void TreemapItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement fe || fe.DataContext is not TreemapItem item)
+            return;
+
+        if (DataContext is not MainViewModel vm)
+            return;
+
+        var match = vm.TopFiles.FirstOrDefault(x => x.Path == item.Path);
+        if (match is not null)
+            vm.SelectedFile = match;
     }
 }
