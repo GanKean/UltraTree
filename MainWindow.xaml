@@ -5,13 +5,13 @@
         Height="900"
         Width="1400"
         WindowStartupLocation="CenterScreen"
-        Background="#1C1836">
+        Background="#211C3D">
 
     
 
     <DockPanel>
 
-        <Menu DockPanel.Dock="Top" Background="#1C1836">
+        <Menu DockPanel.Dock="Top" Background="#211C3D">
             <MenuItem Header="_File"/>
             <MenuItem Header="_Options"/>
             <MenuItem Header="_View"/>
@@ -29,9 +29,9 @@
         </StatusBar>
 
         <Border DockPanel.Dock="Top"
-                BorderBrush="#C8C8C8"
+                BorderBrush="#261F8B"
                 BorderThickness="0,0,0,1"
-                Background="#E9EEF4"
+                Background="#3A31B5"
                 Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -153,7 +153,7 @@
             </Grid.RowDefinitions>
 
             <TabControl Grid.Row="0"
-                        Background="#1C1836"
+                        Background="#211C3D"
                         BorderThickness="0">
                 <TabItem Header="Tree View"/>
                 <TabItem Header="File View"/>
