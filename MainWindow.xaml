@@ -9,45 +9,117 @@
 
     <Window.Resources>
 
-    <!-- VS Code Dark Theme -->
+    <!-- VS Code dark base -->
     <SolidColorBrush x:Key="AppBackground" Color="#1E1E1E"/>
     <SolidColorBrush x:Key="PanelBackground" Color="#252526"/>
     <SolidColorBrush x:Key="CardBackground" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="BorderColor" Color="#3C3C3C"/>
+    <SolidColorBrush x:Key="HeaderBackground" Color="#2D2D30"/>
+    <SolidColorBrush x:Key="SurfaceBackground" Color="#1F1F1F"/>
 
-    <!-- Accent -->
-    <SolidColorBrush x:Key="AccentBlue" Color="#007ACC"/>
+    <!-- Your custom blue theme -->
+    <SolidColorBrush x:Key="AccentBlue" Color="#072B47"/>
+    <SolidColorBrush x:Key="AccentBlueHover" Color="#0B3A5E"/>
+    <SolidColorBrush x:Key="AccentBlueSelected" Color="#11476F"/>
+
+    <!-- Borders / lines -->
+    <SolidColorBrush x:Key="BorderColor" Color="#072B47"/>
+    <SolidColorBrush x:Key="GridLineColor" Color="#072B47"/>
 
     <!-- Text -->
     <SolidColorBrush x:Key="PrimaryText" Color="#D4D4D4"/>
     <SolidColorBrush x:Key="SecondaryText" Color="#9CDCFE"/>
+    <SolidColorBrush x:Key="MutedText" Color="#A0A0A0"/>
+
+    <!-- General text -->
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+    </Style>
+
+    <!-- Borders -->
+    <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
+
+    <!-- Buttons -->
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,4"/>
+    </Style>
+
+    <!-- ComboBox -->
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
+
+    <!-- Menu -->
+    <Style TargetType="Menu">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+    </Style>
+
+    <Style TargetType="MenuItem">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+    </Style>
+
+    <!-- Status bar -->
+    <Style TargetType="StatusBar">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+    </Style>
+
+    <!-- Progress bar -->
+    <Style TargetType="ProgressBar">
+        <Setter Property="Background" Value="{StaticResource SurfaceBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource AccentBlue}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
 
     <!-- DataGrid -->
     <Style TargetType="DataGrid">
         <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="RowBackground" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource SurfaceBackground}"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource GridLineColor}"/>
         <Setter Property="GridLinesVisibility" Value="All"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderColor}"/>
-        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
     </Style>
 
-    <!-- DataGrid Row -->
+    <!-- DataGrid rows -->
     <Style TargetType="DataGridRow">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#2A2D2E"/>
+                <Setter Property="Background" Value="{StaticResource AccentBlueHover}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#094771"/>
+                <Setter Property="Background" Value="{StaticResource AccentBlueSelected}"/>
+                <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <!-- Borders -->
-    <Style TargetType="Border">
+    <!-- DataGrid headers -->
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource HeaderBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <!-- ScrollViewer / treemap area text borders stay dark -->
+    <Style TargetType="GroupBox">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
     </Style>
 
