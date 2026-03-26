@@ -91,9 +91,9 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="180"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -103,19 +103,16 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Selection:" FontWeight="Bold" Grid.Row="0" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDrive}" FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
+                        <TextBlock Text="{Binding SelectionText}" FontWeight="Bold" Grid.Row="0" Grid.Column="1"/>
 
                         <TextBlock Text="Total Space:" Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="--" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="{Binding TotalSpaceText}" Grid.Row="1" Grid.Column="1"/>
 
                         <TextBlock Text="Space Used:" Grid.Row="2" Grid.Column="0"/>
-                        <TextBlock Text="--" Grid.Row="2" Grid.Column="1"/>
-
-                        <TextBlock Text="Reserved Space:" Grid.Row="2" Grid.Column="2"/>
-                        <TextBlock Text="--" Grid.Row="2" Grid.Column="3"/>
+                        <TextBlock Text="{Binding SpaceUsedText}" Grid.Row="2" Grid.Column="1"/>
 
                         <TextBlock Text="Space Free:" Grid.Row="3" Grid.Column="0"/>
-                        <TextBlock Text="--" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock Text="{Binding SpaceFreeText}" Grid.Row="3" Grid.Column="1"/>
                     </Grid>
                 </Border>
 
@@ -181,31 +178,36 @@
                               MouseDoubleClick="FoldersGrid_MouseDoubleClick">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Folder"
-                                                Binding="{Binding Path}"
+                                                Binding="{Binding DisplayName}"
                                                 Width="3*"
                                                 SortMemberPath="Path"/>
                             <DataGridTextColumn Header="% of Parent"
-                                                Binding="{Binding Bytes}"
+                                                Binding="{Binding PercentOfParentText}"
                                                 Width="*"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
                                                 SortMemberPath="Bytes"/>
                             <DataGridTextColumn Header="Allocated"
-                                                Binding="{Binding SizeHuman}"
-                                                Width="*"/>
+                                                Binding="{Binding AllocatedHuman}"
+                                                Width="*"
+                                                SortMemberPath="AllocatedBytes"/>
                             <DataGridTextColumn Header="Items"
-                                                Binding="{Binding Bytes}"
-                                                Width="*"/>
+                                                Binding="{Binding ItemCountText}"
+                                                Width="*"
+                                                SortMemberPath="ItemCount"/>
                             <DataGridTextColumn Header="Files"
-                                                Binding="{Binding Bytes}"
-                                                Width="*"/>
+                                                Binding="{Binding FileCountText}"
+                                                Width="*"
+                                                SortMemberPath="FileCount"/>
                             <DataGridTextColumn Header="Folders"
-                                                Binding="{Binding Bytes}"
-                                                Width="*"/>
+                                                Binding="{Binding FolderCountText}"
+                                                Width="*"
+                                                SortMemberPath="FolderCount"/>
                             <DataGridTextColumn Header="Modified"
-                                                Binding="{Binding Path}"
-                                                Width="*"/>
+                                                Binding="{Binding ModifiedText}"
+                                                Width="*"
+                                                SortMemberPath="Modified"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
@@ -231,25 +233,25 @@
                               CanUserSortColumns="True"
                               MouseDoubleClick="FilesGrid_MouseDoubleClick">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Extension"
-                                                Binding="{Binding Path}"
-                                                Width="*"/>
-                            <DataGridTextColumn Header="File Type"
-                                                Binding="{Binding Path}"
-                                                Width="2*"/>
+                            <DataGridTextColumn Header="Files"
+                                                Binding="{Binding DisplayName}"
+                                                Width="2*"
+                                                SortMemberPath="Path"/>
                             <DataGridTextColumn Header="Percent"
-                                                Binding="{Binding Bytes}"
+                                                Binding="{Binding PercentText}"
                                                 Width="*"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
                                                 SortMemberPath="Bytes"/>
                             <DataGridTextColumn Header="Allocated"
-                                                Binding="{Binding SizeHuman}"
-                                                Width="*"/>
-                            <DataGridTextColumn Header="Files"
-                                                Binding="{Binding Bytes}"
-                                                Width="*"/>
+                                                Binding="{Binding AllocatedHuman}"
+                                                Width="*"
+                                                SortMemberPath="AllocatedBytes"/>
+                            <DataGridTextColumn Header="Modified"
+                                                Binding="{Binding ModifiedText}"
+                                                Width="*"
+                                                SortMemberPath="Modified"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
@@ -293,6 +295,16 @@
                                             BorderThickness="1"
                                             ToolTip="{Binding Tooltip}"
                                             MouseLeftButtonDown="TreemapItem_MouseLeftButtonDown">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Opacity" Value="1"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Opacity" Value="0.75"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
                                         <Grid>
                                             <TextBlock Text="{Binding Label}"
                                                        Margin="4"
