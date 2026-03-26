@@ -7,6 +7,38 @@
         WindowStartupLocation="CenterScreen"
         Background="#F0F0F0">
 
+    <Window.Resources>
+
+    <!-- Background colors -->
+    <SolidColorBrush x:Key="AppBackground" Color="#1E1E1E"/>   <!-- light black -->
+    <SolidColorBrush x:Key="PanelBackground" Color="#252526"/>
+    <SolidColorBrush x:Key="CardBackground" Color="#2D2D30"/>
+
+    <!-- Blue accents -->
+    <SolidColorBrush x:Key="BlueLine" Color="#0E639C"/>
+    <SolidColorBrush x:Key="BlueHighlight" Color="#007ACC"/>
+
+    <!-- Text -->
+    <SolidColorBrush x:Key="PrimaryText" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="SecondaryText" Color="#CCCCCC"/>
+
+    <!-- DataGrid style -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BlueLine}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BlueLine}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlueLine}"/>
+    </Style>
+
+    <!-- Border style -->
+    <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BlueLine}"/>
+    </Style>
+
+</Window.Resources>
+
     <DockPanel>
 
         <Menu DockPanel.Dock="Top" Background="#F0F0F0">
