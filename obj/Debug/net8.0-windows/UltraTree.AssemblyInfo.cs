@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UltraTree")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77e73e528c68027e079b9ad8f7ba6a4783b4bbcf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+908f281476fc8e05c8bbe50a567029ff92e98ea0")]
 [assembly: System.Reflection.AssemblyProductAttribute("UltraTree")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UltraTree")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

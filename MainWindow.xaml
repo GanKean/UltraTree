@@ -163,8 +163,8 @@
                 Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="460"/>
-                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="520"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
