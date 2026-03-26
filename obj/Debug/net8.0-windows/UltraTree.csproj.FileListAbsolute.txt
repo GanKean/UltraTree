@@ -30,3 +30,10 @@ C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-win
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.AssemblyInfo.cs
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.csproj.CoreCompileInputs.cache
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.sourcelink.json
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.exe
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.deps.json
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.runtimeconfig.json
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.dll
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.pdb
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.genruntimeconfig.cache
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\ref\UltraTree.dll
