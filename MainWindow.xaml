@@ -5,13 +5,57 @@
         Height="900"
         Width="1400"
         WindowStartupLocation="CenterScreen"
-        Background="#211C3D">
+        Background="#F0F0F0">
 
-    
+    <Window.Resources>
+
+    <!-- VS Code Dark Theme -->
+    <SolidColorBrush x:Key="AppBackground" Color="#1E1E1E"/>
+    <SolidColorBrush x:Key="PanelBackground" Color="#252526"/>
+    <SolidColorBrush x:Key="CardBackground" Color="#2D2D30"/>
+    <SolidColorBrush x:Key="BorderColor" Color="#3C3C3C"/>
+
+    <!-- Accent -->
+    <SolidColorBrush x:Key="AccentBlue" Color="#007ACC"/>
+
+    <!-- Text -->
+    <SolidColorBrush x:Key="PrimaryText" Color="#D4D4D4"/>
+    <SolidColorBrush x:Key="SecondaryText" Color="#9CDCFE"/>
+
+    <!-- DataGrid -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
+
+    <!-- DataGrid Row -->
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2A2D2E"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#094771"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Borders -->
+    <Style TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+    </Style>
+
+</Window.Resources>
 
     <DockPanel>
 
-        <Menu DockPanel.Dock="Top" Background="#211C3D">
+        <Menu DockPanel.Dock="Top" Background="#F0F0F0">
             <MenuItem Header="_File"/>
             <MenuItem Header="_Options"/>
             <MenuItem Header="_View"/>
@@ -29,9 +73,9 @@
         </StatusBar>
 
         <Border DockPanel.Dock="Top"
-                BorderBrush="#261F8B"
+                BorderBrush="#C8C8C8"
                 BorderThickness="0,0,0,1"
-                Background="#3A31B5"
+                Background="#E9EEF4"
                 Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -40,7 +84,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left controls -->
                 <Grid Grid.Column="0" Margin="0,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -85,7 +128,6 @@
                                  Value="{Binding ProgressPercent}" />
                 </Grid>
 
-                <!-- Center stats -->
                 <Border Grid.Column="1"
                         BorderBrush="#C8C8C8"
                         BorderThickness="1"
@@ -120,7 +162,6 @@
                     </Grid>
                 </Border>
 
-                <!-- Right branding -->
                 <Border Grid.Column="2"
                         BorderBrush="#C8C8C8"
                         BorderThickness="1"
@@ -144,7 +185,6 @@
             </Grid>
         </Border>
 
-        <!-- Main body -->
         <Grid Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
@@ -153,7 +193,7 @@
             </Grid.RowDefinitions>
 
             <TabControl Grid.Row="0"
-                        Background="#211C3D"
+                        Background="#F0F0F0"
                         BorderThickness="0">
                 <TabItem Header="Tree View"/>
                 <TabItem Header="File View"/>
@@ -167,7 +207,6 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left grid -->
                 <Border Grid.Column="0"
                         BorderBrush="#BFBFBF"
                         BorderThickness="1"
@@ -188,10 +227,9 @@
                                                 Binding="{Binding DisplayName}"
                                                 Width="3*"
                                                 SortMemberPath="Path"/>
-                            <DataGridTextColumn Header="% of Total Space"
+                            <DataGridTextColumn Header="% of Parent"
                                                 Binding="{Binding PercentOfParentText}"
-                                                Width="*"
-                                                SortMemberPath="PercentOfParent"/>
+                                                Width="*"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -225,7 +263,6 @@
                               VerticalAlignment="Stretch"
                               Background="#D0D0D0"/>
 
-                <!-- Right grid -->
                 <Border Grid.Column="2"
                         BorderBrush="#BFBFBF"
                         BorderThickness="1"
@@ -248,8 +285,7 @@
                                                 SortMemberPath="Path"/>
                             <DataGridTextColumn Header="Percent"
                                                 Binding="{Binding PercentText}"
-                                                Width="*"
-                                                SortMemberPath="PercentOfDrive"/>
+                                                Width="*"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -267,7 +303,6 @@
                 </Border>
             </Grid>
 
-            <!-- Treemap -->
             <Border Grid.Row="2"
                     Margin="0,8,0,0"
                     BorderBrush="#BFBFBF"
@@ -316,7 +351,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-
                                         <Grid>
                                             <TextBlock Text="{Binding Label}"
                                                        Margin="4"
