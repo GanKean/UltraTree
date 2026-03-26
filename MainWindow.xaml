@@ -38,6 +38,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- Left controls -->
                 <Grid Grid.Column="0" Margin="0,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -82,6 +83,7 @@
                                  Value="{Binding ProgressPercent}" />
                 </Grid>
 
+                <!-- Center stats -->
                 <Border Grid.Column="1"
                         BorderBrush="#C8C8C8"
                         BorderThickness="1"
@@ -116,6 +118,7 @@
                     </Grid>
                 </Border>
 
+                <!-- Right branding -->
                 <Border Grid.Column="2"
                         BorderBrush="#C8C8C8"
                         BorderThickness="1"
@@ -139,6 +142,7 @@
             </Grid>
         </Border>
 
+        <!-- Main body -->
         <Grid Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
@@ -161,6 +165,7 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- Left grid -->
                 <Border Grid.Column="0"
                         BorderBrush="#BFBFBF"
                         BorderThickness="1"
@@ -181,9 +186,10 @@
                                                 Binding="{Binding DisplayName}"
                                                 Width="3*"
                                                 SortMemberPath="Path"/>
-                            <DataGridTextColumn Header="% of Parent"
+                            <DataGridTextColumn Header="% of Total Space"
                                                 Binding="{Binding PercentOfParentText}"
-                                                Width="*"/>
+                                                Width="*"
+                                                SortMemberPath="PercentOfParent"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -217,6 +223,7 @@
                               VerticalAlignment="Stretch"
                               Background="#D0D0D0"/>
 
+                <!-- Right grid -->
                 <Border Grid.Column="2"
                         BorderBrush="#BFBFBF"
                         BorderThickness="1"
@@ -239,7 +246,8 @@
                                                 SortMemberPath="Path"/>
                             <DataGridTextColumn Header="Percent"
                                                 Binding="{Binding PercentText}"
-                                                Width="*"/>
+                                                Width="*"
+                                                SortMemberPath="PercentOfDrive"/>
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding SizeHuman}"
                                                 Width="*"
@@ -257,6 +265,7 @@
                 </Border>
             </Grid>
 
+            <!-- Treemap -->
             <Border Grid.Row="2"
                     Margin="0,8,0,0"
                     BorderBrush="#BFBFBF"
@@ -305,6 +314,7 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
+
                                         <Grid>
                                             <TextBlock Text="{Binding Label}"
                                                        Margin="4"

@@ -21,7 +21,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<ResultRow> TopFiles { get; } = new();
     public ObservableCollection<TreemapItem> TreemapItems { get; } = new();
 
-    private readonly ConcurrentDictionary<string, DirStats> _dirStatsCache = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ConcurrentDictionary<string, DirStats> _dirStatsCache =
+        new(StringComparer.OrdinalIgnoreCase);
 
     private string? _selectedDrive;
     public string? SelectedDrive
@@ -32,6 +33,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             _selectedDrive = value;
             OnPropertyChanged();
             UpdateDriveStats();
+            OnPropertyChanged(nameof(SelectionText));
         }
     }
 
@@ -39,14 +41,22 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public string StatusText
     {
         get => _statusText;
-        set { _statusText = value; OnPropertyChanged(); }
+        set
+        {
+            _statusText = value;
+            OnPropertyChanged();
+        }
     }
 
     private double _progressPercent;
     public double ProgressPercent
     {
         get => _progressPercent;
-        set { _progressPercent = value; OnPropertyChanged(); }
+        set
+        {
+            _progressPercent = value;
+            OnPropertyChanged();
+        }
     }
 
     private ResultRow? _selectedFolder;
@@ -56,7 +66,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
         set
         {
             _selectedFolder = value;
-            if (value is not null) SelectedFile = null;
+            if (value is not null)
+                SelectedFile = null;
+
             OnPropertyChanged();
             OnPropertyChanged(nameof(SelectionText));
         }
@@ -69,7 +81,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
         set
         {
             _selectedFile = value;
-            if (value is not null) _selectedFolder = null;
+            if (value is not null)
+                _selectedFolder = null;
+
             OnPropertyChanged();
             OnPropertyChanged(nameof(SelectedFolder));
             OnPropertyChanged(nameof(SelectionText));
@@ -90,21 +104,33 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public string TotalSpaceText
     {
         get => _totalSpaceText;
-        set { _totalSpaceText = value; OnPropertyChanged(); }
+        set
+        {
+            _totalSpaceText = value;
+            OnPropertyChanged();
+        }
     }
 
     private string _spaceUsedText = "--";
     public string SpaceUsedText
     {
         get => _spaceUsedText;
-        set { _spaceUsedText = value; OnPropertyChanged(); }
+        set
+        {
+            _spaceUsedText = value;
+            OnPropertyChanged();
+        }
     }
 
     private string _spaceFreeText = "--";
     public string SpaceFreeText
     {
         get => _spaceFreeText;
-        set { _spaceFreeText = value; OnPropertyChanged(); }
+        set
+        {
+            _spaceFreeText = value;
+            OnPropertyChanged();
+        }
     }
 
     public ICommand ScanCommand { get; }
@@ -199,56 +225,84 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private ResultRow EnrichFolderRow(ResultRow row, long driveBytes, uint clusterSize)
     {
-        var stats = GetDirectoryStatsSafe(row.Path);
-
-        long parentBytes = driveBytes;
-        try
-        {
-            var parent = Directory.GetParent(row.Path);
-            if (parent is not null)
-            {
-                parentBytes = GetDirectoryStatsSafe(parent.FullName).Bytes;
-                if (parentBytes <= 0) parentBytes = driveBytes;
-            }
-        }
-        catch
-        {
-            parentBytes = driveBytes;
-        }
+        var stats = GetDirectoryStatsSafe(row.Path, clusterSize);
 
         return new ResultRow(row.Path, row.Bytes)
         {
-            AllocatedBytes = stats.Bytes > 0 ? RoundUpToCluster(stats.Bytes, clusterSize) : RoundUpToCluster(row.Bytes, clusterSize),
-            PercentOfParent = parentBytes > 0 ? (double)row.Bytes / parentBytes * 100.0 : 0,
+            DisplayName = row.Path,
+            AllocatedBytes = stats.AllocatedBytes,
+            PercentOfParent = driveBytes > 0 ? (double)row.Bytes / driveBytes * 100.0 : 0,
             PercentOfDrive = driveBytes > 0 ? (double)row.Bytes / driveBytes * 100.0 : 0,
             ItemCount = stats.FileCount + stats.FolderCount,
             FileCount = stats.FileCount,
             FolderCount = stats.FolderCount,
-            Modified = SafeGetDirectoryModified(row.Path),
-            DisplayName = row.Path
+            Modified = SafeGetDirectoryModified(row.Path)
         };
     }
 
     private ResultRow EnrichFileRow(ResultRow row, long driveBytes, uint clusterSize)
     {
         DateTime modified = DateTime.MinValue;
+
         try
         {
             modified = File.GetLastWriteTime(row.Path);
         }
-        catch { }
+        catch
+        {
+        }
 
         return new ResultRow(row.Path, row.Bytes)
         {
+            DisplayName = row.Path,
             AllocatedBytes = RoundUpToCluster(row.Bytes, clusterSize),
             PercentOfParent = driveBytes > 0 ? (double)row.Bytes / driveBytes * 100.0 : 0,
             PercentOfDrive = driveBytes > 0 ? (double)row.Bytes / driveBytes * 100.0 : 0,
             ItemCount = 1,
             FileCount = 1,
             FolderCount = 0,
-            Modified = modified,
-            DisplayName = row.Path
+            Modified = modified
         };
+    }
+
+    private DirStats GetDirectoryStatsSafe(string path, uint clusterSize)
+    {
+        if (_dirStatsCache.TryGetValue(path, out var cached))
+            return cached;
+
+        long bytes = 0;
+        long allocatedBytes = 0;
+        int fileCount = 0;
+        int folderCount = 0;
+
+        try
+        {
+            foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    var fi = new FileInfo(file);
+                    bytes += fi.Length;
+                    allocatedBytes += RoundUpToCluster(fi.Length, clusterSize);
+                    fileCount++;
+                }
+                catch
+                {
+                }
+            }
+
+            foreach (var dir in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
+            {
+                folderCount++;
+            }
+        }
+        catch
+        {
+        }
+
+        var stats = new DirStats(bytes, allocatedBytes, fileCount, folderCount);
+        _dirStatsCache[path] = stats;
+        return stats;
     }
 
     private void BuildTreemap(double totalWidth, double totalHeight)
@@ -276,7 +330,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         foreach (var item in items)
         {
             double width = totalWidth * item.Bytes / totalBytes;
-            if (width < 3) width = 3;
+            if (width < 3)
+                width = 3;
 
             byte r = (byte)random.Next(80, 200);
             byte g = (byte)random.Next(80, 200);
@@ -344,40 +399,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    private DirStats GetDirectoryStatsSafe(string path)
-    {
-        if (_dirStatsCache.TryGetValue(path, out var cached))
-            return cached;
-
-        long bytes = 0;
-        int fileCount = 0;
-        int folderCount = 0;
-
-        try
-        {
-            foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
-            {
-                try
-                {
-                    var fi = new FileInfo(file);
-                    bytes += fi.Length;
-                    fileCount++;
-                }
-                catch { }
-            }
-
-            foreach (var dir in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
-            {
-                folderCount++;
-            }
-        }
-        catch { }
-
-        var stats = new DirStats(bytes, fileCount, folderCount);
-        _dirStatsCache[path] = stats;
-        return stats;
-    }
-
     private static DateTime SafeGetDirectoryModified(string path)
     {
         try
@@ -392,7 +413,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private static long RoundUpToCluster(long bytes, uint clusterSize)
     {
-        if (bytes <= 0 || clusterSize == 0) return bytes;
+        if (bytes <= 0 || clusterSize == 0)
+            return bytes;
+
         long cluster = clusterSize;
         return ((bytes + cluster - 1) / cluster) * cluster;
     }
@@ -402,10 +425,13 @@ public sealed class MainViewModel : INotifyPropertyChanged
         try
         {
             if (!driveRoot.EndsWith("\\")) driveRoot += "\\";
+
             if (GetDiskFreeSpace(driveRoot, out uint sectorsPerCluster, out uint bytesPerSector, out _, out _))
                 return sectorsPerCluster * bytesPerSector;
         }
-        catch { }
+        catch
+        {
+        }
 
         return 4096;
     }
@@ -479,7 +505,7 @@ public sealed class ResultRow
 
 public sealed record ScanProgress(double Percent, string Message);
 
-public sealed record DirStats(long Bytes, int FileCount, int FolderCount);
+public sealed record DirStats(long Bytes, long AllocatedBytes, int FileCount, int FolderCount);
 
 public static class Utils
 {
