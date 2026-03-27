@@ -263,7 +263,7 @@
                                    FontSize="14"
                                    HorizontalAlignment="Center"
                                    Margin="0,4,0,0"/>
-                        <TextBlock Text="Capstone Build"
+                        <TextBlock Text="Capstone"
                                    FontSize="12"
                                    HorizontalAlignment="Center"
                                    Margin="0,8,0,0"/>
