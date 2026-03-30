@@ -37,3 +37,4 @@ C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-win
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\bin\Debug\net8.0-windows\UltraTree.pdb
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.genruntimeconfig.cache
 C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\ref\UltraTree.dll
+C:\Users\Gaous\OneDrive\Documents\CPS4951_Project\UltraTree\obj\Debug\net8.0-windows\UltraTree.csproj.AssemblyReference.cache
