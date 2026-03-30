@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 {
   "runtimeOptions": {
     "tfm": "net8.0",
@@ -12,7 +16,32 @@
       }
     ],
     "configProperties": {
+<<<<<<< HEAD
       "CSWINRT_USE_WINDOWS_UI_XAML_PROJECTIONS": false
     }
   }
+=======
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true
+    }
+  }
+=======
+{
+  "runtimeOptions": {
+    "tfm": "net8.0",
+    "frameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "8.0.0"
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "version": "8.0.0"
+      }
+    ],
+    "configProperties": {
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true
+    }
+  }
+>>>>>>> b78f4c63145062f6840ee5adb0fbc7f8b5fe4d52
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 }

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 <Project Sdk="Microsoft.NET.Sdk">
+=======
+<<<<<<< HEAD
+﻿<Project Sdk="Microsoft.NET.Sdk">
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,8 +13,25 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
+=======
+</Project>
+=======
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+</Project>
+>>>>>>> b78f4c63145062f6840ee5adb0fbc7f8b5fe4d52
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f

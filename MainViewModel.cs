@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,6 +16,13 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+=======
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using System.IO;
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 
 namespace UltraTree;
 
@@ -24,13 +32,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<ResultRow> TopFolders { get; } = new();
     public ObservableCollection<ResultRow> TopFiles { get; } = new();
 
+<<<<<<< HEAD
     private readonly ConcurrentDictionary<string, DirStats> _dirStatsCache =
         new(StringComparer.OrdinalIgnoreCase);
 
+=======
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     private string? _selectedDrive;
     public string? SelectedDrive
     {
         get => _selectedDrive;
+<<<<<<< HEAD
         set
         {
             _selectedDrive = value;
@@ -38,23 +50,31 @@ public sealed class MainViewModel : INotifyPropertyChanged
             UpdateDriveStats();
             OnPropertyChanged(nameof(SelectionText));
         }
+=======
+        set { _selectedDrive = value; OnPropertyChanged(); }
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     }
 
     private string _statusText = "Idle.";
     public string StatusText
     {
         get => _statusText;
+<<<<<<< HEAD
         set
         {
             _statusText = value;
             OnPropertyChanged();
         }
+=======
+        set { _statusText = value; OnPropertyChanged(); }
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     }
 
     private double _progressPercent;
     public double ProgressPercent
     {
         get => _progressPercent;
+<<<<<<< HEAD
         set
         {
             _progressPercent = value;
@@ -156,6 +176,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
             _filePieSeries = value;
             OnPropertyChanged();
         }
+=======
+        set { _progressPercent = value; OnPropertyChanged(); }
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     }
 
     public ICommand ScanCommand { get; }
@@ -176,14 +199,19 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private async Task ScanAsync()
     {
+<<<<<<< HEAD
         if (string.IsNullOrWhiteSpace(SelectedDrive))
             return;
+=======
+        if (string.IsNullOrWhiteSpace(SelectedDrive)) return;
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 
         _cts = new CancellationTokenSource();
         RaiseCanExecuteChanged();
 
         TopFolders.Clear();
         TopFiles.Clear();
+<<<<<<< HEAD
         _dirStatsCache.Clear();
 
         SelectedFolder = null;
@@ -199,6 +227,13 @@ public sealed class MainViewModel : INotifyPropertyChanged
         {
             UpdateDriveStats();
 
+=======
+        ProgressPercent = 0;
+        StatusText = "Scanning…";
+
+        try
+        {
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
             var progress = new Progress<ScanProgress>(p =>
             {
                 ProgressPercent = p.Percent;
@@ -208,6 +243,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             var result = await Task.Run(() =>
                 NtfsMftScanner.ScanDrive(SelectedDrive, progress, _cts.Token), _cts.Token);
 
+<<<<<<< HEAD
             long driveBytes = result.TotalBytes;
             uint clusterSize = GetClusterSize(SelectedDrive);
 
@@ -231,6 +267,14 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
             UpdateDriveStats();
 
+=======
+            foreach (var r in result.TopFolders)
+                TopFolders.Add(r);
+
+            foreach (var r in result.TopFiles)
+                TopFiles.Add(r);
+
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
             StatusText = $"Done. Files: {result.FileCount:n0}  Bytes: {Utils.FormatBytes(result.TotalBytes)}";
             ProgressPercent = 100;
         }
@@ -244,12 +288,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
         finally
         {
+<<<<<<< HEAD
             _cts?.Dispose();
+=======
+            _cts.Dispose();
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
             _cts = null;
             RaiseCanExecuteChanged();
         }
     }
 
+<<<<<<< HEAD
     private ResultRow EnrichFolderRow(ResultRow row, long driveBytes, uint clusterSize)
     {
         var stats = GetDirectoryStatsSafe(row.Path, clusterSize);
@@ -495,6 +544,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         out uint lpNumberOfFreeClusters,
         out uint lpTotalNumberOfClusters);
 
+=======
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     private void RaiseCanExecuteChanged()
     {
         (ScanCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -502,7 +553,10 @@ public sealed class MainViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     private void OnPropertyChanged([CallerMemberName] string? n = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(n));
 }
@@ -511,6 +565,7 @@ public sealed class RelayCommand : ICommand
 {
     private readonly Func<object?, bool>? _can;
     private readonly Action<object?> _run;
+<<<<<<< HEAD
 
     public RelayCommand(Action<object?> run, Func<object?, bool>? can = null)
     {
@@ -518,12 +573,16 @@ public sealed class RelayCommand : ICommand
         _can = can;
     }
 
+=======
+    public RelayCommand(Action<object?> run, Func<object?, bool>? can = null) { _run = run; _can = can; }
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
     public bool CanExecute(object? parameter) => _can?.Invoke(parameter) ?? true;
     public void Execute(object? parameter) => _run(parameter);
     public event EventHandler? CanExecuteChanged;
     public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }
 
+<<<<<<< HEAD
 public sealed class ResultRow
 {
     public ResultRow(string path, long bytes)
@@ -552,12 +611,20 @@ public sealed class ResultRow
     public string FileCountText => FileCount.ToString("n0");
     public string FolderCountText => FolderCount.ToString("n0");
     public string ModifiedText => Modified == DateTime.MinValue ? "" : Modified.ToString("yyyy-MM-dd HH:mm");
+=======
+public sealed record ResultRow(string Path, long Bytes)
+{
+    public string SizeHuman => Utils.FormatBytes(Bytes);
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 }
 
 public sealed record ScanProgress(double Percent, string Message);
 
+<<<<<<< HEAD
 public sealed record DirStats(long Bytes, long AllocatedBytes, int FileCount, int FolderCount);
 
+=======
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
 public static class Utils
 {
     public static string FormatBytes(long bytes)
@@ -565,6 +632,7 @@ public static class Utils
         string[] u = ["B", "KB", "MB", "GB", "TB", "PB"];
         double b = bytes;
         int i = 0;
+<<<<<<< HEAD
 
         while (b >= 1024 && i < u.Length - 1)
         {
@@ -575,3 +643,9 @@ public static class Utils
         return $"{b:0.##} {u[i]}";
     }
 }
+=======
+        while (b >= 1024 && i < u.Length - 1) { b /= 1024; i++; }
+        return $"{b:0.##} {u[i]}";
+    }
+}
+>>>>>>> 81f3dc24198249e33d3e1fd3f5af8b5c15ee6f9f
