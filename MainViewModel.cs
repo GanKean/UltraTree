@@ -335,18 +335,21 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private void BuildPieCharts()
     {
         FolderPieSeries = BuildPieSeries(
-            TopFolders.OrderByDescending(x => x.Bytes).Take(6).ToList(),
-            includeOther: false);
+            TopFolders
+                .Where(x => x.Bytes > 0)
+                .OrderByDescending(x => x.Bytes)
+                .Take(6)
+                .ToList());
 
         FilePieSeries = BuildPieSeries(
-            TopFiles.Where(x => x.Bytes > 0 && !x.Path.Contains("$"))
-                    .OrderByDescending(x => x.Bytes)
-                    .Take(6)
-                    .ToList(),
-            includeOther: false);
+            TopFiles
+                .Where(x => x.Bytes > 0 && !x.Path.Contains("$"))
+                .OrderByDescending(x => x.Bytes)
+                .Take(6)
+                .ToList());
     }
 
-    private ISeries[] BuildPieSeries(List<ResultRow> rows, bool includeOther)
+    private ISeries[] BuildPieSeries(List<ResultRow> rows)
     {
         var palette = new[]
         {
@@ -377,28 +380,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
                 DataLabelsPaint = new SolidColorPaint(SKColors.White),
                 HoverPushout = 6
             });
-        }
-
-        if (includeOther && rows.Count > 0)
-        {
-            long shown = rows.Sum(x => x.Bytes);
-            long total = rows.Sum(x => x.Bytes);
-            long other = total - shown;
-
-            if (other > 0)
-            {
-                series.Add(new PieSeries<double>
-                {
-                    Values = new[] { (double)other },
-                    Name = "Other",
-                    Fill = new SolidColorPaint(new SKColor(80, 80, 80)),
-                    Stroke = new SolidColorPaint(new SKColor(12, 76, 125), 2),
-                    DataLabelsSize = 12,
-                    DataLabelsPosition = PolarLabelsPosition.Outer,
-                    DataLabelsPaint = new SolidColorPaint(SKColors.White),
-                    HoverPushout = 6
-                });
-            }
         }
 
         return series.ToArray();

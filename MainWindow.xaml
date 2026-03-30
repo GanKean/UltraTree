@@ -28,17 +28,14 @@
         <SolidColorBrush x:Key="PrimaryText" Color="#FFFFFF"/>
         <SolidColorBrush x:Key="MutedText" Color="#CFCFCF"/>
 
-        <!-- Global text -->
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
         </Style>
 
-        <!-- Borders -->
         <Style TargetType="Border">
             <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
         </Style>
 
-        <!-- Buttons -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AccentBlue}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
@@ -48,14 +45,12 @@
             <Setter Property="Padding" Value="8,4"/>
         </Style>
 
-        <!-- ComboBox -->
         <Style TargetType="ComboBox">
             <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
         </Style>
 
-        <!-- Menu -->
         <Style TargetType="Menu">
             <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
@@ -67,14 +62,12 @@
             <Setter Property="TextElement.Foreground" Value="{StaticResource PrimaryText}"/>
         </Style>
 
-        <!-- StatusBar -->
         <Style TargetType="StatusBar">
             <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
         </Style>
 
-        <!-- ProgressBar -->
         <Style TargetType="ProgressBar">
             <Setter Property="Background" Value="{StaticResource SurfaceBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource AccentBlue}"/>
@@ -82,7 +75,6 @@
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
-        <!-- DataGrid -->
         <Style TargetType="DataGrid">
             <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryText}"/>
@@ -127,7 +119,6 @@
 
     <DockPanel Background="{StaticResource AppBackground}">
 
-        <!-- Menu -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File"/>
             <MenuItem Header="_Options"/>
@@ -135,7 +126,6 @@
             <MenuItem Header="_Help"/>
         </Menu>
 
-        <!-- Status bar -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Text="{Binding StatusText}" />
@@ -146,7 +136,6 @@
             </StatusBarItem>
         </StatusBar>
 
-        <!-- Top header -->
         <Border DockPanel.Dock="Top"
                 BorderBrush="{StaticResource BorderColor}"
                 BorderThickness="0,0,0,1"
@@ -159,7 +148,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left controls -->
                 <Grid Grid.Column="0" Margin="0,0,10,0" Background="{StaticResource CardBackground}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -204,7 +192,6 @@
                                  Value="{Binding ProgressPercent}" />
                 </Grid>
 
-                <!-- Center stats -->
                 <Border Grid.Column="1"
                         MaxWidth="520"
                         HorizontalAlignment="Left"
@@ -241,7 +228,6 @@
                     </Grid>
                 </Border>
 
-                <!-- Right branding -->
                 <Border Grid.Column="2"
                         BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
@@ -265,7 +251,6 @@
             </Grid>
         </Border>
 
-        <!-- Main body -->
         <Grid Margin="8" Background="{StaticResource AppBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
@@ -273,7 +258,6 @@
                 <RowDefinition Height="280"/>
             </Grid.RowDefinitions>
 
-            <!-- Non-clickable header -->
             <Border Grid.Row="0"
                     Background="{StaticResource CardBackground}"
                     BorderBrush="{StaticResource BorderColor}"
@@ -292,7 +276,6 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left grid -->
                 <Border Grid.Column="0"
                         BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
@@ -349,7 +332,6 @@
                               VerticalAlignment="Stretch"
                               Background="{StaticResource BorderColor}"/>
 
-                <!-- Right grid -->
                 <Border Grid.Column="2"
                         BorderBrush="{StaticResource BorderColor}"
                         BorderThickness="1"
@@ -390,7 +372,6 @@
                 </Border>
             </Grid>
 
-            <!-- Pie charts -->
             <Border Grid.Row="2"
                     Margin="0,8,0,0"
                     BorderBrush="{StaticResource BorderColor}"
@@ -414,7 +395,6 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Folder pie chart -->
                         <Border Grid.Column="0"
                                 BorderBrush="{StaticResource BorderColor}"
                                 BorderThickness="1"
@@ -437,7 +417,6 @@
                             </Grid>
                         </Border>
 
-                        <!-- File pie chart -->
                         <Border Grid.Column="2"
                                 BorderBrush="{StaticResource BorderColor}"
                                 BorderThickness="1"
