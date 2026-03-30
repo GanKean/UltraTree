@@ -10,7 +10,11 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
+using LiveChartsCore;
+using LiveChartsCore.Measure;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 
 namespace UltraTree;
 
@@ -19,7 +23,6 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Drives { get; } = new();
     public ObservableCollection<ResultRow> TopFolders { get; } = new();
     public ObservableCollection<ResultRow> TopFiles { get; } = new();
-    public ObservableCollection<TreemapItem> TreemapItems { get; } = new();
 
     private readonly ConcurrentDictionary<string, DirStats> _dirStatsCache =
         new(StringComparer.OrdinalIgnoreCase);
@@ -133,6 +136,28 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    private ISeries[] _folderPieSeries = Array.Empty<ISeries>();
+    public ISeries[] FolderPieSeries
+    {
+        get => _folderPieSeries;
+        set
+        {
+            _folderPieSeries = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ISeries[] _filePieSeries = Array.Empty<ISeries>();
+    public ISeries[] FilePieSeries
+    {
+        get => _filePieSeries;
+        set
+        {
+            _filePieSeries = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand ScanCommand { get; }
     public ICommand CancelCommand { get; }
 
@@ -159,11 +184,13 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
         TopFolders.Clear();
         TopFiles.Clear();
-        TreemapItems.Clear();
         _dirStatsCache.Clear();
 
         SelectedFolder = null;
         SelectedFile = null;
+
+        FolderPieSeries = Array.Empty<ISeries>();
+        FilePieSeries = Array.Empty<ISeries>();
 
         ProgressPercent = 0;
         StatusText = "Scanning...";
@@ -200,7 +227,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             foreach (var r in enrichedFiles)
                 TopFiles.Add(r);
 
-            BuildTreemap(1200, 220);
+            BuildPieCharts();
 
             UpdateDriveStats();
 
@@ -305,61 +332,76 @@ public sealed class MainViewModel : INotifyPropertyChanged
         return stats;
     }
 
-    private void BuildTreemap(double totalWidth, double totalHeight)
+    private void BuildPieCharts()
     {
-        TreemapItems.Clear();
+        FolderPieSeries = BuildPieSeries(
+            TopFolders.OrderByDescending(x => x.Bytes).Take(6).ToList(),
+            includeOther: false);
 
-        var items = TopFiles
-            .Where(x => x.Bytes > 0 && !x.Path.Contains("$"))
-            .OrderByDescending(x => x.Bytes)
-            .Take(100)
-            .ToList();
+        FilePieSeries = BuildPieSeries(
+            TopFiles.Where(x => x.Bytes > 0 && !x.Path.Contains("$"))
+                    .OrderByDescending(x => x.Bytes)
+                    .Take(6)
+                    .ToList(),
+            includeOther: false);
+    }
 
-        long totalBytes = items.Sum(x => x.Bytes);
-        if (totalBytes <= 0)
-            return;
-
-        double x = 0;
-        double y = 0;
-        double rowHeight = totalHeight / 4.0;
-        int itemsPerRow = Math.Max(1, items.Count / 4);
-
-        var random = new Random(42);
-        int count = 0;
-
-        foreach (var item in items)
+    private ISeries[] BuildPieSeries(List<ResultRow> rows, bool includeOther)
+    {
+        var palette = new[]
         {
-            double width = totalWidth * item.Bytes / totalBytes;
-            if (width < 3)
-                width = 3;
+            new SKColor(7, 43, 71),
+            new SKColor(12, 76, 125),
+            new SKColor(17, 71, 111),
+            new SKColor(11, 58, 94),
+            new SKColor(32, 96, 144),
+            new SKColor(66, 133, 194),
+            new SKColor(98, 155, 210)
+        };
 
-            byte r = (byte)random.Next(80, 200);
-            byte g = (byte)random.Next(80, 200);
-            byte b = (byte)random.Next(80, 200);
+        var series = new List<ISeries>();
 
-            TreemapItems.Add(new TreemapItem
+        for (int i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            var color = palette[i % palette.Length];
+
+            series.Add(new PieSeries<double>
             {
-                Path = item.Path,
-                Bytes = item.Bytes,
-                X = x,
-                Y = y,
-                Width = width,
-                Height = rowHeight,
-                Fill = new SolidColorBrush(Color.FromRgb(r, g, b))
+                Values = new[] { (double)row.Bytes },
+                Name = ShortName(row.Path),
+                Fill = new SolidColorPaint(color),
+                Stroke = new SolidColorPaint(new SKColor(12, 76, 125), 2),
+                DataLabelsSize = 12,
+                DataLabelsPosition = PolarLabelsPosition.Outer,
+                DataLabelsPaint = new SolidColorPaint(SKColors.White),
+                HoverPushout = 6
             });
+        }
 
-            x += width;
-            count++;
+        if (includeOther && rows.Count > 0)
+        {
+            long shown = rows.Sum(x => x.Bytes);
+            long total = rows.Sum(x => x.Bytes);
+            long other = total - shown;
 
-            if (count >= itemsPerRow)
+            if (other > 0)
             {
-                x = 0;
-                y += rowHeight;
-                count = 0;
+                series.Add(new PieSeries<double>
+                {
+                    Values = new[] { (double)other },
+                    Name = "Other",
+                    Fill = new SolidColorPaint(new SKColor(80, 80, 80)),
+                    Stroke = new SolidColorPaint(new SKColor(12, 76, 125), 2),
+                    DataLabelsSize = 12,
+                    DataLabelsPosition = PolarLabelsPosition.Outer,
+                    DataLabelsPaint = new SolidColorPaint(SKColors.White),
+                    HoverPushout = 6
+                });
             }
         }
 
-        OnPropertyChanged(nameof(TreemapItems));
+        return series.ToArray();
     }
 
     private void UpdateDriveStats()
@@ -397,6 +439,15 @@ public sealed class MainViewModel : INotifyPropertyChanged
             SpaceUsedText = "--";
             SpaceFreeText = "--";
         }
+    }
+
+    private static string ShortName(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return "";
+
+        int i = path.LastIndexOf('\\');
+        return i >= 0 && i < path.Length - 1 ? path[(i + 1)..] : path;
     }
 
     private static DateTime SafeGetDirectoryModified(string path)
