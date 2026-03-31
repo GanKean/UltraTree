@@ -1,7 +1,7 @@
 ﻿<Window x:Class="UltraTree.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:lvc="http://schemas.livecharts.com/2.0/wpf"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         Title="UltraTree"
         Height="900"
         Width="1400"
